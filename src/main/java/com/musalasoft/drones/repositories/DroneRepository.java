@@ -1,5 +1,7 @@
 package com.musalasoft.drones.repositories;
 
+import java.util.List;
+
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
@@ -12,6 +14,6 @@ import com.musalasoft.drones.entities.Drone;
  */
 @Repository
 public interface DroneRepository extends CrudRepository<Drone, Integer> {
-	
-	Drone findDroneById(Integer id);	
+		
+	List<Drone> findDroneBySerialNumber(String serialNumber);
 }

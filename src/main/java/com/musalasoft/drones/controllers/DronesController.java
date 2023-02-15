@@ -8,6 +8,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -31,17 +33,13 @@ public class DronesController {
 	@Autowired
 	private DronesService dronesService;
 
-	@GetMapping("/{page}/{pageSize}")
-	public ResponseEntity<ResponseDTO<DroneDTO>> listDrones(
-			@PathVariable(name = "page") int page,
-			@PathVariable(name = "pageSize") int pageSize) {
+	@GetMapping("/list")
+	public ResponseEntity<ResponseDTO<DroneDTO>> listDrones() {
 		
 		ResponseDTO<DroneDTO> responseDTO;
 		try {
-			responseDTO = dronesService.listDrones(page, pageSize);
-			
-//			responseDTO.setResult(dronesService.paginateResult(page, pageSize, responseDTO, responseDTO.getResult()));
-			
+			responseDTO = dronesService.listDrones();
+						
 			return new ResponseEntity<>(responseDTO, HttpStatus.OK);
 		} catch (InternalServerErrorException e) {
 			logger.error("ERROR", e);			
@@ -49,8 +47,41 @@ public class DronesController {
 			responseDTO.setMessage(e.getMessage());
 			responseDTO.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
 			return new ResponseEntity<>(responseDTO, HttpStatus.INTERNAL_SERVER_ERROR);
-		}
+		}		
+	}
+	
+	@GetMapping("/{serialNumber}")
+	public ResponseEntity<ResponseDTO<DroneDTO>> getDroneMedications(@PathVariable(name = "serialNumber") String serialNumber) {
 		
+		ResponseDTO<DroneDTO> responseDTO;
+		try {
+			responseDTO = dronesService.getDroneMedications(serialNumber);
+						
+			return new ResponseEntity<>(responseDTO, HttpStatus.OK);
+		} catch (InternalServerErrorException e) {
+			logger.error("ERROR", e);			
+			responseDTO = new ResponseDTO<>();
+			responseDTO.setMessage(e.getMessage());
+			responseDTO.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
+			return new ResponseEntity<>(responseDTO, HttpStatus.INTERNAL_SERVER_ERROR);
+		}		
+	}
+	
+	@PostMapping("/register")
+	public ResponseEntity<ResponseDTO<DroneDTO>> registerDrone(@RequestBody DroneDTO droneDTO) {
+		
+		ResponseDTO<DroneDTO> responseDTO;
+		try {
+			responseDTO = dronesService.registerDrone(droneDTO);
+						
+			return new ResponseEntity<>(responseDTO, HttpStatus.OK);
+		} catch (InternalServerErrorException e) {
+			logger.error("ERROR", e);			
+			responseDTO = new ResponseDTO<>();
+			responseDTO.setMessage(e.getMessage());
+			responseDTO.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
+			return new ResponseEntity<>(responseDTO, HttpStatus.INTERNAL_SERVER_ERROR);
+		}		
 	}
 	
 }

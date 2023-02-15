@@ -1,6 +1,10 @@
 package com.musalasoft.drones.dtos;
 
 import java.io.Serializable;
+import java.util.List;
+import java.util.Set;
+
+import com.musalasoft.drones.entities.Medication;
 
 /**
  * 
@@ -16,8 +20,12 @@ public class DroneDTO implements Serializable {
 	private String weightLimit;
 	private String batteryCapacity;
 	private String  state;
+	private List<MedicationDTO> medications;
 	
-	
+	public DroneDTO() {
+		super();
+	}
+
 	public DroneDTO(String serialNumber, String model, String weightLimit, String batteryCapacity, String state) {
 		super();
 		this.serialNumber = serialNumber;
@@ -56,6 +64,14 @@ public class DroneDTO implements Serializable {
 	}
 	public void setState(String state) {
 		this.state = state;
+	}
+
+	public List<MedicationDTO> getMedications() {
+		return medications;
+	}
+
+	public void setMedications(List<MedicationDTO> medications) {
+		this.medications = medications;
 	}	
 	
 }

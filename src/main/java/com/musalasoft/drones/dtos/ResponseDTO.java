@@ -14,7 +14,6 @@ public class ResponseDTO<T> {
 	private int status;
 	private String message;
 	private List<T> result;
-	private int totalPages;
 	
 	public int getStatus() {
 		return status;
@@ -33,11 +32,5 @@ public class ResponseDTO<T> {
 	}
 	public void setMessage(String message) {
 		this.message = message;
-	}
-	public int getTotalPages() {
-		return totalPages;
-	}
-	public void setTotalPages(int totalPages) {
-		this.totalPages = totalPages;
 	}
 }

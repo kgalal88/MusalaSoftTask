@@ -1,6 +1,7 @@
 package com.musalasoft.drones.entities;
 
 import java.io.Serializable;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -8,6 +9,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -18,11 +20,8 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "drone")
 public class Drone {
-
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Integer id;
 	
+	@Id
 	@Column(name = "serial_number")
 	private String serialNumber;
 	
@@ -38,6 +37,22 @@ public class Drone {
 	@Column(name = "state")
 	private String  state;
 	
+	@OneToMany(mappedBy="drone")
+    private Set<Medication> medications;
+	
+	public Drone() {
+		super();
+	}
+	public Drone(String serialNumber, String model, String weightLimit, String batteryCapacity,
+			String state) {
+		super();
+		this.serialNumber = serialNumber;
+		this.model = model;
+		this.weightLimit = weightLimit;
+		this.batteryCapacity = batteryCapacity;
+		this.state = state;
+	}
+
 	public String getSerialNumber() {
 		return serialNumber;
 	}
@@ -68,4 +83,7 @@ public class Drone {
 	public void setState(String state) {
 		this.state = state;
 	}	
+	public Set<Medication> getMedications() {
+		return medications;
+	}
 }
