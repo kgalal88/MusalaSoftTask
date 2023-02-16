@@ -13,3 +13,21 @@ And the below commands to build/run the docker image
 
 After you build/run the project, please use the below swagger URL to test the microservice
 - http://localhost:8080/swagger-ui/
+
+The microdervice contains the below API endpoints
+
+GET 
+​/drones​/
+getDrones
+
+POST
+​/drones​/register
+registerDrone
+
+PUT
+​/drones​/load
+loadDrone
+
+PUT
+​/drones​/unload
+loadDrone
