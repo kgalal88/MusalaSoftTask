@@ -1,6 +1,7 @@
 package com.musalasoft.drones.entities;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -38,7 +39,7 @@ public class Drone {
 	private String state;
 	
 	@OneToMany(mappedBy="drone")
-    private Set<Medication> medications;
+    private List<Medication> medications;
 	
 	public Drone() {
 		super();
@@ -83,7 +84,7 @@ public class Drone {
 	public void setState(String state) {
 		this.state = state;
 	}	
-	public Set<Medication> getMedications() {
+	public List<Medication> getMedications() {
 		return medications;
 	}
 }

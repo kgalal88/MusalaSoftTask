@@ -22,32 +22,21 @@ import javax.persistence.Table;
 public class Medication {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Integer id;
+	@Column(name = "code")
+	private String code;
 	
 	@Column(name = "name")
 	private String name;
 	
 	@Column(name = "weight")
-	private String  weight;
-	
-	@Column(name = "code")
-	private String code;
+	private String  weight;	
 	
 	@Column(name = "image")
 	private String image;
 	
 	@ManyToOne
-	@JoinColumn(name="serial_number", nullable=true)
+	@JoinColumn(name="drone_serial_number", nullable=true)
 	private Drone drone;
-
-	public Integer getId() {
-		return id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
-	}
 
 	public String getName() {
 		return name;

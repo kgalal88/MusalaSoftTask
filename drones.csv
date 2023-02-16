@@ -1,0 +1,11 @@
+serial_number,battery_capacity,model,state,weight_limit
+123456780,100,Lightweight,IDLE,100
+123456781,100,Lightweight,IDLE,100
+123456782,100,Middleweight,IDLE,200
+123456783,100,Middleweight,IDLE,200
+123456784,100,Cruiserweight,IDLE,300
+123456785,100,Cruiserweight,IDLE,300
+123456786,100,Cruiserweight,IDLE,300
+123456787,100,Cruiserweight,IDLE,300
+123456788,100,Heavyweight,IDLE,500
+123456789,100,Heavyweight,IDLE,500

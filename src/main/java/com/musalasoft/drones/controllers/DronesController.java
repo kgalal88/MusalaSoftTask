@@ -1,5 +1,7 @@
 package com.musalasoft.drones.controllers;
 
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +11,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -58,6 +61,41 @@ public class DronesController {
 		ResponseDTO<DroneDTO> responseDTO;
 		try {
 			responseDTO = dronesService.registerDrone(droneDTO);
+						
+			return new ResponseEntity<>(responseDTO, HttpStatus.OK);
+		} catch (InternalServerErrorException e) {
+			logger.error("ERROR", e);			
+			responseDTO = new ResponseDTO<>();
+			responseDTO.setMessage(e.getMessage());
+			responseDTO.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
+			return new ResponseEntity<>(responseDTO, HttpStatus.INTERNAL_SERVER_ERROR);
+		}		
+	}
+	
+	@PutMapping("/load")
+	public ResponseEntity<ResponseDTO<DroneDTO>> loadDrone(@RequestParam("serialNumber") String serialNumber,
+			@RequestParam("codes") List<String> medications) {
+		
+		ResponseDTO<DroneDTO> responseDTO;
+		try {
+			responseDTO = dronesService.loadDrone(serialNumber, medications);
+						
+			return new ResponseEntity<>(responseDTO, HttpStatus.OK);
+		} catch (InternalServerErrorException e) {
+			logger.error("ERROR", e);			
+			responseDTO = new ResponseDTO<>();
+			responseDTO.setMessage(e.getMessage());
+			responseDTO.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
+			return new ResponseEntity<>(responseDTO, HttpStatus.INTERNAL_SERVER_ERROR);
+		}		
+	}
+	
+	@PutMapping("/unload")
+	public ResponseEntity<ResponseDTO<DroneDTO>> loadDrone(@RequestParam("serialNumber") String serialNumber) {
+		
+		ResponseDTO<DroneDTO> responseDTO;
+		try {
+			responseDTO = dronesService.unloadDrone(serialNumber);
 						
 			return new ResponseEntity<>(responseDTO, HttpStatus.OK);
 		} catch (InternalServerErrorException e) {

@@ -1,0 +1,11 @@
+code,image,name,weight,drone_serial_number
+MED11,100,MED1,med1.png,
+MED22,100,MED2,med2.png,
+MED33,200,MED3,med3.png,
+MED44,200,MED4,med4.png,
+MED55,300,MED5,med5.png,
+MED66,300,MED6,med6.png,
+MED77,400,MED7,med7.png,
+MED88,500,MED8,med8.png,
+MED99,100,MED9,med9.png,
+MED100,100,MED10,med10.png,
