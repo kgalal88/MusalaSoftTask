@@ -21,21 +21,27 @@ The microdervice contains the below API endpoints
 GET 
 ​/drones​/
 getDrones
+- http://localhost:8080/drones/
+- http://localhost:8080/drones/?serialNumber=123456780
+- http://localhost:8080/drones/?state=LOADED
 
 POST
 ​/drones​/register
 registerDrone
+- http://localhost:8080/drones/register
 
 PUT
 ​/drones​/load
 loadDrone
-
-# medications-controller Medications Controller
+- http://localhost:8080/drones/load?serialNumber=123456780&codes=22&codes=11
 
 PUT
 ​/drones​/unload
-loadDrone
+unloadDrone
+- http://localhost:8080/drones/unload?serialNumber=123456780
 
+# medications-controller Medications Controller
 GET
 ​/medications​/
 getMedications
+- http://localhost:8080/medications/
