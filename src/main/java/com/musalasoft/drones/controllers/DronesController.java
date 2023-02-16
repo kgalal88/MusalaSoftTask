@@ -91,7 +91,7 @@ public class DronesController {
 	}
 	
 	@PutMapping("/unload")
-	public ResponseEntity<ResponseDTO<DroneDTO>> loadDrone(@RequestParam("serialNumber") String serialNumber) {
+	public ResponseEntity<ResponseDTO<DroneDTO>> unloadDrone(@RequestParam("serialNumber") String serialNumber) {
 		
 		ResponseDTO<DroneDTO> responseDTO;
 		try {
