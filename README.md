@@ -12,4 +12,4 @@ And the below commands to build/run the docker image
 - docker run -d -p 8080:8080 my-musalasoft-task
 
 After you build/run the project, please use the below swagger URL to test the microservice
-http://localhost:8080/swagger-ui/
+- http://localhost:8080/swagger-ui/
