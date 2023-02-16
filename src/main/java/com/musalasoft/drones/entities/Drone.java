@@ -35,7 +35,7 @@ public class Drone {
 	private String batteryCapacity;
 	
 	@Column(name = "state")
-	private String  state;
+	private String state;
 	
 	@OneToMany(mappedBy="drone")
     private Set<Medication> medications;

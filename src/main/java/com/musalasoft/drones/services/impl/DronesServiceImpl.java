@@ -11,6 +11,7 @@ import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 
 import org.apache.commons.lang3.ObjectUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,46 +40,23 @@ public class DronesServiceImpl implements DronesService {
 	private DroneRepository droneRepository;	
 
 	@Override
-	public ResponseDTO<DroneDTO> listDrones() throws InternalServerErrorException {
+	public ResponseDTO<DroneDTO> getDrones(String serialNumber, String state) throws InternalServerErrorException {
 
 		ResponseDTO<DroneDTO> responseDTO = new ResponseDTO<DroneDTO>();
 		List<DroneDTO> result = new ArrayList<>();
 		
-		List<Drone> drones = (List<Drone>) droneRepository.findAll();
-		
-		if(!drones.isEmpty()) {
-			drones.forEach(d -> {
-				DroneDTO droneDTO = getDroneDTO(d);
-				
-				droneDTO.setMedications(getDroneMedications(d));
-				result.add(droneDTO);
-			});		
-			
-			responseDTO.setStatus(HttpStatus.OK.value());
-			responseDTO.setMessage("Data retrievd successfully");
-			responseDTO.setResult(result);
+		List<Drone> drones = null;
+		if(!StringUtils.isEmpty(serialNumber)) {
+			drones = (List<Drone>) droneRepository.findDroneBySerialNumber(serialNumber);
+		}else if(!StringUtils.isEmpty(state)) {
+			drones = (List<Drone>) droneRepository.findDroneByState(state);
 		}else {
-			logger.error("drones is empty!");
+			drones = (List<Drone>) droneRepository.findAll();
 		}
-		
-		if (result.isEmpty()) {
-			throw new InternalServerErrorException("result is empty!");
-		} else {
-			return responseDTO;
-		}
-	}
-	
-	@Override
-	public ResponseDTO<DroneDTO> getDroneMedications(String serialNumber) throws InternalServerErrorException {
-
-		ResponseDTO<DroneDTO> responseDTO = new ResponseDTO<DroneDTO>();
-		List<DroneDTO> result = new ArrayList<>();
-		
-		List<Drone> drones = (List<Drone>) droneRepository.findDroneBySerialNumber(serialNumber);
 		
 		if(!drones.isEmpty()) {
 			drones.forEach(d -> {
-				DroneDTO droneDTO = getDroneDTO(d);
+				DroneDTO droneDTO = toDroneDTO(d);
 				
 				droneDTO.setMedications(getDroneMedications(d));
 				result.add(droneDTO);
@@ -98,9 +76,8 @@ public class DronesServiceImpl implements DronesService {
 		}
 	}
 
-	private DroneDTO getDroneDTO(Drone d) {
-		DroneDTO droneDTO = new DroneDTO(d.getSerialNumber(), d.getModel(), d.getWeightLimit(), d.getBatteryCapacity(), d.getState());
-		return droneDTO;
+	private DroneDTO toDroneDTO(Drone d) {
+		return new DroneDTO(d.getSerialNumber(), d.getModel(), d.getWeightLimit(), d.getBatteryCapacity(), d.getState());
 	}
 	
 	@Override
@@ -113,7 +90,7 @@ public class DronesServiceImpl implements DronesService {
 				droneDTO.getWeightLimit(), droneDTO.getBatteryCapacity(), droneDTO.getState());
 		
 		Drone newDrone = droneRepository.save(drone);
-		result = Arrays.asList(getDroneDTO(newDrone));
+		result = Arrays.asList(toDroneDTO(newDrone));
 		
 		responseDTO.setStatus(HttpStatus.OK.value());
 		responseDTO.setMessage("Data retrievd successfully");

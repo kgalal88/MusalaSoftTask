@@ -3,6 +3,7 @@ package com.musalasoft.drones.services;
 import org.springframework.stereotype.Service;
 
 import com.musalasoft.drones.dtos.DroneDTO;
+import com.musalasoft.drones.dtos.MedicationDTO;
 import com.musalasoft.drones.dtos.ResponseDTO;
 import com.musalasoft.drones.entities.Drone;
 import com.musalasoft.drones.exceptions.InternalServerErrorException;
@@ -14,7 +15,6 @@ import com.musalasoft.drones.exceptions.InternalServerErrorException;
  *
  */
 @Service
-public interface DronesService {
-	public ResponseDTO<DroneDTO> getDrones(String serialNumber, String state) throws InternalServerErrorException;
-	public ResponseDTO<DroneDTO> registerDrone(DroneDTO droneDTO) throws InternalServerErrorException;
+public interface MedicationService {
+	public ResponseDTO<MedicationDTO> getMedications() throws InternalServerErrorException;
 }

@@ -15,9 +15,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.musalasoft.drones.dtos.DroneDTO;
+import com.musalasoft.drones.dtos.MedicationDTO;
 import com.musalasoft.drones.dtos.ResponseDTO;
 import com.musalasoft.drones.exceptions.InternalServerErrorException;
 import com.musalasoft.drones.services.DronesService;
+import com.musalasoft.drones.services.MedicationService;
 
 /**
  * 
@@ -26,38 +28,20 @@ import com.musalasoft.drones.services.DronesService;
  */
 @RestController
 @CrossOrigin("*")
-@RequestMapping("/drones")
-public class DronesController {
+@RequestMapping("/medications")
+public class MedicationsController {
 	
-	private final Logger logger = LoggerFactory.getLogger(DronesController.class);
+	private final Logger logger = LoggerFactory.getLogger(MedicationsController.class);
 
 	@Autowired
-	private DronesService dronesService;
+	private MedicationService medicationService;
 
 	@GetMapping("/")
-	public ResponseEntity<ResponseDTO<DroneDTO>> getDrones(@RequestParam(required = false) String serialNumber,
-			@RequestParam(required = false) String state) {
+	public ResponseEntity<ResponseDTO<MedicationDTO>> getMedications() {
 		
-		ResponseDTO<DroneDTO> responseDTO;
+		ResponseDTO<MedicationDTO> responseDTO;
 		try {
-			responseDTO = dronesService.getDrones(serialNumber, state);
-						
-			return new ResponseEntity<>(responseDTO, HttpStatus.OK);
-		} catch (InternalServerErrorException e) {
-			logger.error("ERROR", e);			
-			responseDTO = new ResponseDTO<>();
-			responseDTO.setMessage(e.getMessage());
-			responseDTO.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
-			return new ResponseEntity<>(responseDTO, HttpStatus.INTERNAL_SERVER_ERROR);
-		}		
-	}
-	
-	@PostMapping("/register")
-	public ResponseEntity<ResponseDTO<DroneDTO>> registerDrone(@RequestBody DroneDTO droneDTO) {
-		
-		ResponseDTO<DroneDTO> responseDTO;
-		try {
-			responseDTO = dronesService.registerDrone(droneDTO);
+			responseDTO = medicationService.getMedications();
 						
 			return new ResponseEntity<>(responseDTO, HttpStatus.OK);
 		} catch (InternalServerErrorException e) {

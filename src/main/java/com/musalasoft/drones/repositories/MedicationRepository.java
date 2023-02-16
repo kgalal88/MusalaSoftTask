@@ -6,6 +6,7 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 import com.musalasoft.drones.entities.Drone;
+import com.musalasoft.drones.entities.Medication;
 
 /**
  * 
@@ -13,9 +14,6 @@ import com.musalasoft.drones.entities.Drone;
  *
  */
 @Repository
-public interface DroneRepository extends CrudRepository<Drone, String> {
-		
-	List<Drone> findDroneBySerialNumber(String serialNumber);
-	
-	List<Drone> findDroneByState(String state);
+public interface MedicationRepository extends CrudRepository<Medication, Integer> {
+
 }
