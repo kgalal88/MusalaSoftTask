@@ -45,3 +45,5 @@ GET
 ​/medications​/
 getMedications
 - http://localhost:8080/medications/
+
+I've also created a schedueled service which triggeres every 10 seconds to monitor and log the battery level for each drone
