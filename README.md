@@ -16,6 +16,8 @@ After you build/run the project, please use the below swagger URL to test the mi
 
 The microdervice contains the below API endpoints
 
+# drones-controller Drones Controller
+
 GET 
 ​/drones​/
 getDrones
@@ -28,6 +30,12 @@ PUT
 ​/drones​/load
 loadDrone
 
+# medications-controller Medications Controller
+
 PUT
 ​/drones​/unload
 loadDrone
+
+GET
+​/medications​/
+getMedications
