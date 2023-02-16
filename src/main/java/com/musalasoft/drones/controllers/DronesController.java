@@ -43,7 +43,7 @@ public class DronesController {
 		
 		ResponseDTO<DroneDTO> responseDTO;
 		try {
-			responseDTO = dronesService.getDrones(serialNumber, state);
+			responseDTO = dronesService.getDrones(serialNumber, state, false);
 						
 			return new ResponseEntity<>(responseDTO, HttpStatus.OK);
 		} catch (InternalServerErrorException e) {

@@ -17,7 +17,7 @@ import com.musalasoft.drones.exceptions.InternalServerErrorException;
  */
 @Service
 public interface DronesService {
-	public ResponseDTO<DroneDTO> getDrones(String serialNumber, String state) throws InternalServerErrorException;
+	public ResponseDTO<DroneDTO> getDrones(String serialNumber, String state, boolean isScheduler) throws InternalServerErrorException;
 	public ResponseDTO<DroneDTO> registerDrone(DroneDTO droneDTO) throws InternalServerErrorException;
 	public ResponseDTO<DroneDTO> loadDrone(String serialNumber, List<String> medications) throws InternalServerErrorException;
 	public ResponseDTO<DroneDTO> unloadDrone(String serialNumber) throws InternalServerErrorException;

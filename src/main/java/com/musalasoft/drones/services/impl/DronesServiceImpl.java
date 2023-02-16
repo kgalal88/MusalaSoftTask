@@ -47,7 +47,7 @@ public class DronesServiceImpl implements DronesService {
 	private MedicationRepository medicationRepository;	
 
 	@Override
-	public ResponseDTO<DroneDTO> getDrones(String serialNumber, String state) throws InternalServerErrorException {
+	public ResponseDTO<DroneDTO> getDrones(String serialNumber, String state, boolean isScheduler) throws InternalServerErrorException {
 
 		ResponseDTO<DroneDTO> responseDTO = new ResponseDTO<DroneDTO>();
 		List<DroneDTO> result = new ArrayList<>();
@@ -65,7 +65,9 @@ public class DronesServiceImpl implements DronesService {
 			drones.forEach(d -> {
 				DroneDTO droneDTO = toDroneDTO(d);
 				
-				droneDTO.setMedications(getDroneMedications(d));
+				if(!isScheduler) {
+					droneDTO.setMedications(getDroneMedications(d));
+				}
 				result.add(droneDTO);
 			});		
 			
@@ -114,41 +116,46 @@ public class DronesServiceImpl implements DronesService {
 		String msg = "";
 		Drone drone = droneRepository.findDroneBySerialNumber(serialNumber).stream().findFirst().get();	
 		if(drone != null) {
-			List<Medication> currentMedications = drone.getMedications();
-			if(currentMedications == null || currentMedications.isEmpty()) {
-				currentMedications = new ArrayList<>();
-			}
+			if(Integer.valueOf(drone.getBatteryCapacity()) >= 25) {				
 			
-			currentMedications.forEach(m -> {
-				if(!StringUtils.isEmpty(m.getCode())) {
-					medicationCodes.add(m.getCode());
-				}				
-			});
-			
-			medicationCodes.forEach(m -> {
-				logger.info(m);
-			});
-			List<Medication> medications = medicationRepository.findMedicationByCodes(medicationCodes);
-						
-			AtomicInteger totalWeight = new AtomicInteger(0);
-			medications.forEach(m -> {
-				if(m != null) {
-					totalWeight.addAndGet(Integer.valueOf(m.getWeight()));
+				List<Medication> currentMedications = drone.getMedications();
+				if(currentMedications == null || currentMedications.isEmpty()) {
+					currentMedications = new ArrayList<>();
 				}
-			});
 				
-			
-			if(totalWeight.intValue() > Integer.valueOf(drone.getWeightLimit())) {
-				msg = "Drone " + drone.getSerialNumber() + " is over weight, drone totalWeight is " + totalWeight + ", while the drone weightLimit is " + drone.getWeightLimit();
-				logger.info(msg);
-			}else {
-				medications.forEach(m -> {
-					Medication newMedication = m;
-					newMedication.setDrone(drone);
-					medicationRepository.save(newMedication);
+				currentMedications.forEach(m -> {
+					if(!StringUtils.isEmpty(m.getCode())) {
+						medicationCodes.add(m.getCode());
+					}				
 				});
-				drone.setState("LOADED");
-				msg = "Drone " + drone.getSerialNumber() + " is loaded successfully, new drone totalWeight is " + totalWeight;
+				
+				medicationCodes.forEach(m -> {
+					logger.info(m);
+				});
+				List<Medication> medications = medicationRepository.findMedicationByCodes(medicationCodes);
+							
+				AtomicInteger totalWeight = new AtomicInteger(0);
+				medications.forEach(m -> {
+					if(m != null) {
+						totalWeight.addAndGet(Integer.valueOf(m.getWeight()));
+					}
+				});
+					
+				
+				if(totalWeight.intValue() > Integer.valueOf(drone.getWeightLimit())) {
+					msg = "Drone " + drone.getSerialNumber() + " is over weight, drone totalWeight is " + totalWeight + ", while the drone weightLimit is " + drone.getWeightLimit();
+					logger.info(msg);
+				}else {
+					medications.forEach(m -> {
+						Medication newMedication = m;
+						newMedication.setDrone(drone);
+						medicationRepository.save(newMedication);
+					});
+					drone.setState("LOADED");
+					msg = "Drone " + drone.getSerialNumber() + " is loaded successfully, new drone totalWeight is " + totalWeight;
+				}
+			}else {
+				msg = "Drone " + drone.getSerialNumber() + " is not loaded successfully, as it's batteryCapacity is " + drone.getBatteryCapacity() + "% , while it should be greater than 25% ";
 			}
 		}
 		
@@ -196,7 +203,7 @@ public class DronesServiceImpl implements DronesService {
 
 	private List<MedicationDTO> getDroneMedications(Drone d) {
 		List<MedicationDTO> medicationDTOs = new ArrayList<>();
-		if(d.getMedications() != null) {
+		if(d.getMedications() != null && !d.getMedications().isEmpty()) {
 			d.getMedications().forEach(m -> {
 				medicationDTOs.add(new MedicationDTO(m.getName(), m.getWeight(), m.getCode(), m.getImage()));
 			});
