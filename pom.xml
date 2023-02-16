@@ -5,8 +5,19 @@
   <version>0.0.1</version>
   <name>jumia</name>
   <description>Musala Soft Drones Task</description>
-	
-  
+	<build>
+		  <plugins>
+		    <plugin>
+		        <groupId>org.springframework.boot</groupId>
+		        <artifactId>spring-boot-maven-plugin</artifactId>
+		        <configuration>
+		            <mainClass>com.musalasoft.drones.DronesApplication</mainClass>
+		            <layout>JAR</layout>
+		        </configuration>
+		    </plugin>
+		</plugins>
+	</build>
+
   <properties>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
